@@ -17,7 +17,7 @@ import noWeather from "./assets/images/icons/noWeather.png";
 
 const apiKey = import.meta.env.VITE_API;
 
-let weatherImg = "";
+let weatherIcon = "";
 let sunsetTime = "";
 let sunriseTime = "";
 function App() {
@@ -116,7 +116,7 @@ function App() {
   }
 
   //assigning weather icon
-  const weatherImages = {
+  const weatherIcons = {
     clouds: cloudy,
     clear: isNight ? clearN : clearD,
     snow: snow,
@@ -126,8 +126,8 @@ function App() {
     mist: mist,
     default: noWeather,
   };
-  weatherImg =
-    weatherImages[weatherConditionRef.current] || weatherImages.default;
+  weatherIcon =
+    weatherIcons[weatherConditionRef.current] || weatherIcons.default;
   return (
     <div className="App">
       <div className="main-container">
@@ -142,7 +142,7 @@ function App() {
         <main className="sub-container">
           <section className="weather-description">
             <div className="weather-img-container">
-              <img src={weatherImg} alt="" />
+              <img src={weatherIcon} alt="" />
             </div>
             <ul className="name-temperature-container">
               <li className="name">{cityName}</li>
