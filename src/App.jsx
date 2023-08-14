@@ -14,15 +14,17 @@ import cloudy from "./assets/images/cloudy.png";
 import thunderStorm from "./assets/images/thunderstorm.png";
 import noWeather from "./assets/images/noWeather.png";
 
+const apiKey = import.meta.env.VITE_API_KEY; // import env key - create .env file in root of project
+
+let sunsetTime = "";
+let sunriseTime = "";
+let currenTime = "";
+
 function App() {
   const [cityName, setCityName] = useState("");
   const [weatherData, setWeatherData] = useState(null);
-  const apiKey = "59628f4463632b2cdb15605942bf0066";
-  const weatherConditionRef = useRef(""); // Using useRef for weather condition
-  let weatherImg = "";
-  let sunsetTime = "";
-  let sunriseTime = "";
-  let currenTime = "";
+
+  const weatherConditionRef = useRef("");
 
   function degreesToCardinal(degrees) {
     const cardinalDirections = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
@@ -41,16 +43,14 @@ function App() {
         .then((data) => {
           if (data.cod === "404") {
             setCityName("City not found");
-            if (!searchBar.classList.contains("notfound"))
-              searchBar.classList.add("notfound");
+            searchBar.classList.toggle("notfound", true);
             setWeatherData(null);
             weatherConditionRef.current = "";
           } else {
             setWeatherData(data);
             setCityName(city);
             weatherConditionRef.current = data?.weather[0]?.main.toLowerCase();
-            if (searchBar.classList.contains("notfound"))
-              searchBar.classList.remove("notfound");
+            searchBar.classList.toggle("notfound", false); //  toggle instead add,remove
           }
         })
         .catch((error) => {
@@ -62,23 +62,27 @@ function App() {
       const city = searchBar.value.trim();
       if (city) {
         fetchWeatherData(city);
+        searchBar.value = ""; // clear input after submit
       }
     };
 
     searchBar.addEventListener("keyup", (e) => {
       if (e.keyCode === 13) {
         handleSearch();
+        searchBar.value = ""; // clear input after submit
       }
     });
 
     searchIcon.addEventListener("click", handleSearch);
 
-    return () => {
+    /*   return () => {
       searchBar.removeEventListener("keyup", handleSearch);
       searchIcon.removeEventListener("click", handleSearch);
-    };
+    }; */
   }, [cityName]);
+
   let isNight = true;
+
   if (weatherData) {
     let main = document.querySelector(".main-container");
 
@@ -104,13 +108,17 @@ function App() {
       hour12: false,
     });
 
-    if (sunriseDate <= currentDatetime && currentDatetime <= sunsetDate) {
+    const isDayTime =
+      sunriseDate <= currentDatetime && currentDatetime <= sunsetDate; // new variable for readable code
+
+    if (isDayTime) {
       isNight = false;
-      if (!main.classList.contains("day")) main.classList.add("day");
-      if (main.classList.contains("night")) main.classList.remove("night");
+      main.classList.add("day");
+      main.classList.remove("night");
     } else {
-      if (!main.classList.contains("night")) main.classList.add("night");
-      if (main.classList.contains("day")) main.classList.remove("day");
+      isNight = true;
+      main.classList.add("night");
+      main.classList.remove("day");
     }
   }
   const weatherImages = {
@@ -123,7 +131,8 @@ function App() {
     mist: mist,
     default: noWeather,
   };
-  weatherImg =
+
+  const weatherImg =
     weatherImages[weatherConditionRef.current] || weatherImages.default;
   return (
     <div className="App">
