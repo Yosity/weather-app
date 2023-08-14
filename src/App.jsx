@@ -13,7 +13,7 @@ import snow from "./assets/images/icons/snow.png";
 import rain from "./assets/images/icons/rainy.png";
 import cloudy from "./assets/images/icons/cloudy.png";
 import thunderStorm from "./assets/images/icons/thunderstorm.png";
-import noWeather from "./assets/images/icons/noWeather.png";
+import noWeather from "./assets/images/noWeather.png";
 
 let weatherImg = "";
 let sunsetTime = "";

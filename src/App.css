@@ -193,12 +193,12 @@ ul li {
   text-transform: capitalize;
 }
 
-.temprature {
+.temperature  {
   font-size: 3.5rem;
   font-weight: bold;
   position: relative;
 }
-.temprature::after {
+.temperature ::after {
   content: "°";
   position: absolute;
   top: -3px;
