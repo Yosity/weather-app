@@ -163,7 +163,7 @@ function App() {
               <li className="name">{cityName}</li>
               <li>
                 {" "}
-                <span className="temprature">
+                <span className="temperature">
                   {Math.floor(weatherData?.main?.temp) || "-"}
                 </span>
               </li>
