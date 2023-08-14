@@ -8,20 +8,44 @@ body {
 }
 
 .App {
+  background: url("./assets/images/main-background.png");
   padding: 2rem 0;
-  background-color: gray;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-size: cover;
+  transition: background-image 0.8s;
+}
+
+.day {
+  background: url("./assets/images/day.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.night {
+  background: url("./assets/images/night.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.night .main-container {
+  color: white;
+  background-color: rgba(180, 180, 180, 0.209);
+  box-shadow: 0 5px 10px 1px rgba(255, 255, 255, 0.452);
+}
+.day .main-container {
+  color: white;
+  background-color: rgba(87, 87, 87, 0.134);
+  box-shadow: 0 5px 10px 1px rgb(255, 255, 255);
 }
 
 .main-container {
+  color: white;
   z-index: 999;
-  background-color: rgba(7, 7, 7, 0.209);
+  background-color: rgba(184, 184, 184, 0.209);
   backdrop-filter: blur(5px);
-  padding: 1.8rem 1.5rem;
+  padding: 1.8rem 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -31,34 +55,19 @@ body {
   width: 80%;
   max-width: 500px;
   min-width: 260px;
-  transition: background-color 1.5s;
-  color: white;
+  transition: all 1s;
 }
-.main-container.night {
-  background-color: #191820;
-}
-.main-container.day {
-  background-color: rgb(91, 186, 255);
-}
+
 .search-bar-container {
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
-  width: 100%;
+  width: 95%;
   margin-bottom: 2rem;
 }
-.search-bar-container .search-bar {
-  display: flex;
-  justify-content: center;
-  align-items: self-start;
-  width: 100%;
-  gap: 1rem;
-  position: relative;
-}
-.search-bar span {
-  width: 80%;
-}
+
 .search-bar-container input {
   width: 100%;
   border: none;
@@ -68,15 +77,15 @@ body {
 }
 
 label {
+  position: absolute;
+  bottom: -15px;
+  left: 10px;
   display: none;
-  color: #f70021;
+  color: rgb(255, 248, 118);
   font-weight: lighter;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
 }
-input.notfound {
-  outline: 1px solid red;
-  outline-offset: 1px;
-}
+
 input.notfound + label {
   display: block;
 }
@@ -113,31 +122,46 @@ button i {
   }
 }
 
-.sub-container {
-  width: 100%;
-}
 @media (min-width: 900px) {
   .main-container {
     max-width: 900px;
     gap: 2rem;
   }
-  .sub-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 2rem;
-  }
+
   .search-bar-container {
-    align-items: flex-start;
-  }
-  .search-bar span {
-    width: 40%;
-  }
-  .search-bar-container .search-bar {
     justify-content: flex-start;
+  }
+  .search-bar-container input {
+    width: 45%;
   }
 }
 
+main {
+  width: 100%;
+  opacity: 1;
+}
+.day main {
+  animation: fadeinDay 1s linear forwards;
+}
+.night main {
+  animation: fadeinNight 1s linear forwards;
+}
+@keyframes fadeinDay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeinNight {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .weather-description {
   position: relative;
   display: flex;
@@ -195,6 +219,12 @@ ul li {
 }
 
 @media (min-width: 900px) {
+  main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2rem;
+  }
   .weather-description {
     justify-content: end;
     margin: unset;
@@ -217,7 +247,7 @@ ul li {
   margin-bottom: 1.3rem;
 }
 
-.weather-info {
+.additional-info {
   text-align: center;
   display: flex;
   flex-wrap: wrap;
@@ -227,7 +257,7 @@ ul li {
   gap: 1rem;
   margin: 1rem auto;
 }
-.weather-info div {
+.additional-info .info-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
@@ -236,7 +266,7 @@ ul li {
   max-width: 350px;
   margin: auto;
 }
-.weather-info span {
+.info-row span {
   user-select: none;
   line-height: 1rem;
   display: flex;
@@ -247,17 +277,17 @@ ul li {
   padding: 1rem 0.8rem;
   border-radius: 10px;
 }
-.weather-info span b {
+.info-row span b {
   font-size: 0.8rem;
 }
-.weather-info span p {
+.info-row span p {
   line-height: 1.3rem;
 }
 p small {
   font-size: 0.6rem;
 }
 @media (min-width: 900px) {
-  .weather-info {
+  .additional-info {
     display: grid;
     justify-content: flex-end;
     grid-template-columns: 1fr;
@@ -265,11 +295,11 @@ p small {
     width: 100%;
     align-self: self-start;
   }
-  .weather-info div {
+  .additional-info .info-row {
     place-items: center;
   }
-  .weather-info span {
-    max-width: unset;
-    width: 100px;
+  .info-row span {
+    max-width: 130px;
+    width: 100%;
   }
 }

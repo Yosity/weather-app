@@ -2,28 +2,29 @@ import { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 //Daytime weather icons
-import clearD from "./assets/images/clear.png";
+import clearD from "./assets/images/icons/clear.png";
 //Night-time weather icons
-import clearN from "./assets/images/clear-night.png";
+import clearN from "./assets/images/icons/clear-night.png";
 
-import drizzle from "./assets/images/drizzle.png";
-import mist from "./assets/images/mist.png";
-import snow from "./assets/images/snow.png";
-import rain from "./assets/images/rainy.png";
-import cloudy from "./assets/images/cloudy.png";
-import thunderStorm from "./assets/images/thunderstorm.png";
-import noWeather from "./assets/images/noWeather.png";
+//common weather icon
+import drizzle from "./assets/images/icons/drizzle.png";
+import mist from "./assets/images/icons/mist.png";
+import snow from "./assets/images/icons/snow.png";
+import rain from "./assets/images/icons/rainy.png";
+import cloudy from "./assets/images/icons/cloudy.png";
+import thunderStorm from "./assets/images/icons/thunderstorm.png";
+import noWeather from "./assets/images/icons/noWeather.png";
 
+let weatherImg = "";
+let sunsetTime = "";
+let sunriseTime = "";
 function App() {
   const [cityName, setCityName] = useState("");
-  const [weatherData, setWeatherData] = useState(null);
-  const apiKey = "59628f4463632b2cdb15605942bf0066";
+  const [weatherData, setWeatherData] = useState(null); //holds the json data
+  const apiKey = import.meta.env.VITE_API;
   const weatherConditionRef = useRef(""); // Using useRef for weather condition
-  let weatherImg = "";
-  let sunsetTime = "";
-  let sunriseTime = "";
-  let currenTime = "";
 
+  //A function that determines the direction wind is blowing to
   function degreesToCardinal(degrees) {
     const cardinalDirections = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
     const index = Math.round(degrees / 45) % 8;
@@ -32,7 +33,7 @@ function App() {
 
   useEffect(() => {
     const searchIcon = document.querySelector(".search-icon");
-    const searchBar = document.querySelector("#search-input");
+    const searchBar = document.querySelector("#search-bar");
 
     function fetchWeatherData(city) {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
@@ -40,12 +41,14 @@ function App() {
         .then((response) => response.json())
         .then((data) => {
           if (data.cod === "404") {
+            //city not found
             setCityName("City not found");
             if (!searchBar.classList.contains("notfound"))
               searchBar.classList.add("notfound");
             setWeatherData(null);
             weatherConditionRef.current = "";
           } else {
+            //city found
             setWeatherData(data);
             setCityName(city);
             weatherConditionRef.current = data?.weather[0]?.main.toLowerCase();
@@ -65,6 +68,7 @@ function App() {
       }
     };
 
+    //displays city info on pressing Enter
     searchBar.addEventListener("keyup", (e) => {
       if (e.keyCode === 13) {
         handleSearch();
@@ -79,20 +83,15 @@ function App() {
     };
   }, [cityName]);
   let isNight = true;
+
+  //Setting up  sunrise/sunset times of the current city
   if (weatherData) {
-    let main = document.querySelector(".main-container");
+    let main = document.querySelector(".App");
 
     const currentDatetime = new Date(weatherData?.dt * 1000);
     const sunriseDate = new Date(weatherData?.sys?.sunrise * 1000);
     const sunsetDate = new Date(weatherData?.sys?.sunset * 1000);
 
-    const options = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    currenTime = currentDatetime.toLocaleDateString(undefined, options);
     sunriseTime = sunriseDate.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
@@ -104,6 +103,7 @@ function App() {
       hour12: false,
     });
 
+    //Checks wheather it's day or night time
     if (sunriseDate <= currentDatetime && currentDatetime <= sunsetDate) {
       isNight = false;
       if (!main.classList.contains("day")) main.classList.add("day");
@@ -113,6 +113,8 @@ function App() {
       if (main.classList.contains("day")) main.classList.remove("day");
     }
   }
+
+  //assigning weather icon
   const weatherImages = {
     clouds: cloudy,
     clear: isNight ? clearN : clearD,
@@ -128,69 +130,54 @@ function App() {
   return (
     <div className="App">
       <div className="main-container">
-        <div className="search-bar-container">
-          <span className="search-bar">
-            <span>
-              <input
-                id="search-input"
-                type="text"
-                placeholder="e.g New York..."
-              />
-              <label htmlFor="search-input">
-                Please provide a city with attention to spelling
-              </label>
-            </span>
-            <button className="search-icon">
-              <i className="fa-solid fa-magnifying-glass fa-rotate-90"></i>{" "}
-            </button>{" "}
-          </span>
-        </div>
-        <section className="sub-container">
-          <span className="weather-description">
+        <header className="search-bar-container">
+          <input type="text" id="search-bar" placeholder="e.g New York" />
+          <label htmlFor="search-bar">Please provide a correct city name</label>
+          <button className="search-icon">
+            <i className="fa-solid fa-magnifying-glass fa-rotate-90"></i>{" "}
+          </button>
+        </header>
+
+        <main className="sub-container">
+          <section className="weather-description">
             <div className="weather-img-container">
               <img src={weatherImg} alt="" />
             </div>
-            <ul className="city-name-container">
+            <ul className="name-temperature-container">
               <li className="name">{cityName}</li>
               <li>
-                {" "}
                 <span className="temprature">
                   {Math.floor(weatherData?.main?.temp) || "-"}
                 </span>
               </li>
-              {/* <li className="time">{currenTime}</li> */}
               <li className="description">
                 {weatherData?.weather[0]?.description}
               </li>
-              {/* <li className="minmax">
-                <span>H : {"99°" || "-"} </span>
-                <span>L : {"99°" || "-"} </span>
-              </li> */}
             </ul>
-          </span>
-          <div className="weather-info">
-            <div className="humidity-feels">
+          </section>
+          <section className="additional-info">
+            <div className="info-row">
               <span className="humidity">
                 <b>HUMIDITY</b>
-                <p>{weatherData?.main?.humidity || "-"}%</p>
+                <p>{weatherData?.main?.humidity || "- "}%</p>
               </span>
               <span className="feels">
                 <b>FEELS LIKE</b>
                 <p>{Math.floor(weatherData?.main?.feels_like) || "-"}°</p>
               </span>
             </div>
-            <div className="sunrise-sunset">
+            <div className="info-row">
               <span className="sunrise">
                 <b>SUNRISE</b>
-                <p>{sunriseTime || "-"}</p>
+                <p>{weatherData ? sunriseTime : "-"}</p>
               </span>
               <span className="sunset">
                 <b>SUNSET</b>
-                <p>{sunsetTime || "-"}</p>
+                <p>{weatherData ? sunsetTime : "-"}</p>
               </span>
             </div>
 
-            <div className="wind-visibility">
+            <div className="info-row">
               <span className="wind-speed">
                 <b>WIND</b>
 
@@ -204,14 +191,14 @@ function App() {
                 )}
               </span>
               <span className="pressure">
-                <b>SUNSET</b>
+                <b>PRESSURE</b>
                 <p>
                   {weatherData?.main?.pressure || "-"} <small>hPa</small>
                 </p>
               </span>
             </div>
-          </div>
-        </section>
+          </section>
+        </main>
       </div>
     </div>
   );
