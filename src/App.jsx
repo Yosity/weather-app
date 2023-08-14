@@ -48,7 +48,6 @@ function App() {
           } else {
             setWeatherData(data);
             setCityName(city);
-            console.log(weatherData);
             weatherConditionRef.current = data?.weather[0]?.main.toLowerCase();
             if (searchBar.classList.contains("notfound"))
               searchBar.classList.remove("notfound");
