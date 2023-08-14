@@ -1,6 +1,14 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 * {
   margin: 0;
   padding: 0;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 body {
@@ -11,11 +19,22 @@ body {
   background: url("./assets/images/main-background.png");
   padding: 2rem 0;
   min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   background-size: cover;
+  -webkit-transition: background-image 0.8s;
+  -o-transition: background-image 0.8s;
   transition: background-image 0.8s;
 }
 
@@ -32,11 +51,13 @@ body {
 .night .main-container {
   color: white;
   background-color: rgba(180, 180, 180, 0.209);
+  -webkit-box-shadow: 0 5px 10px 1px rgba(255, 255, 255, 0.452);
   box-shadow: 0 5px 10px 1px rgba(255, 255, 255, 0.452);
 }
 .day .main-container {
   color: white;
   background-color: rgba(87, 87, 87, 0.134);
+  -webkit-box-shadow: 0 5px 10px 1px rgb(255, 255, 255);
   box-shadow: 0 5px 10px 1px rgb(255, 255, 255);
 }
 
@@ -44,24 +65,42 @@ body {
   color: white;
   z-index: 999;
   background-color: rgba(184, 184, 184, 0.209);
+  -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   padding: 1.8rem 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
   justify-content: space-evenly;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   gap: 1rem;
   border-radius: 10px;
   width: 80%;
   max-width: 500px;
   min-width: 260px;
+  -webkit-transition: all 1s;
+  -o-transition: all 1s;
   transition: all 1s;
 }
 
 .search-bar-container {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   gap: 1rem;
   width: 95%;
@@ -103,21 +142,33 @@ input:focus {
   border-radius: 1rem;
   color: black;
   font-weight: bold;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  -o-transition: transform 0.3s;
   transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
 }
 button i {
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  -o-transition: transform 0.3s;
   transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
 }
 
 @media (hover: hover) {
   .search-bar-container button:active,
   .search-bar-container button:hover i {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
     transform: scale(1.1);
   }
 }
 @media (hover: none) {
   .search-bar-container button:active,
   .search-bar-container button:active i {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
     transform: scale(1.1);
   }
 }
@@ -129,6 +180,8 @@ button i {
   }
 
   .search-bar-container {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
     justify-content: flex-start;
   }
   .search-bar-container input {
@@ -141,12 +194,30 @@ main {
   opacity: 1;
 }
 .day main {
+  -webkit-animation: fadeinDay 1s linear forwards;
   animation: fadeinDay 1s linear forwards;
 }
 .night main {
+  -webkit-animation: fadeinNight 1s linear forwards;
   animation: fadeinNight 1s linear forwards;
 }
+@-webkit-keyframes fadeinDay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 @keyframes fadeinDay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeinNight {
   from {
     opacity: 0;
   }
@@ -164,9 +235,18 @@ main {
 }
 .weather-description {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   z-index: 999;
   width: 70%;
@@ -179,21 +259,31 @@ img {
   width: 100%;
   max-width: 140px;
   aspect-ratio: 1/1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   margin-bottom: -1rem;
 }
 ul {
   list-style: none;
   text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
   justify-content: start;
 }
 ul li {
   text-transform: capitalize;
 }
 
-.temperature  {
+.temperature {
   font-size: 3.5rem;
   font-weight: bold;
   position: relative;
@@ -213,19 +303,29 @@ ul li {
   margin-bottom: 5px;
 }
 .minmax {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   gap: 1rem;
 }
 
 @media (min-width: 900px) {
   main {
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 1fr 2rem 1fr;
     grid-template-columns: 1fr 1fr;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: 2rem;
   }
   .weather-description {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
     justify-content: end;
     margin: unset;
     gap: unset;
@@ -239,9 +339,18 @@ ul li {
 }
 .weather-img-container {
   text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
   justify-content: flex-start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 
   margin-bottom: 1.3rem;
@@ -249,30 +358,50 @@ ul li {
 
 .additional-info {
   text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  -webkit-box-pack: space-evenly;
+  -ms-flex-pack: space-evenly;
   justify-content: space-evenly;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 100%;
   gap: 1rem;
   margin: 1rem auto;
 }
 .additional-info .info-row {
+  display: -ms-grid;
   display: grid;
+  -ms-grid-columns: 1fr 1rem 1fr;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 100%;
   max-width: 350px;
   margin: auto;
 }
 .info-row span {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   line-height: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
   gap: 8px;
   background-color: #ffffff38;
+  -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   padding: 1rem 0.8rem;
   border-radius: 10px;
@@ -288,11 +417,16 @@ p small {
 }
 @media (min-width: 900px) {
   .additional-info {
+    display: -ms-grid;
     display: grid;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
     justify-content: flex-end;
+    -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
     gap: 1.5rem;
     width: 100%;
+    -ms-grid-row-align: self-start;
     align-self: self-start;
   }
   .additional-info .info-row {
