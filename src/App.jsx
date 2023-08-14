@@ -15,7 +15,7 @@ import cloudy from "./assets/images/icons/cloudy.png";
 import thunderStorm from "./assets/images/icons/thunderstorm.png";
 import noWeather from "./assets/images/icons/noWeather.png";
 
-const apiKey = import.meta.env.VITE_API;
+const apiKey = import.meta.env.VITE_API_KEY;
 
 let weatherIcon = "";
 let sunsetTime = "";
@@ -38,6 +38,7 @@ function App() {
 
     function fetchWeatherData(city) {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+      console.log(`Fetching weather data from: ${url}`);
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
@@ -52,9 +53,8 @@ function App() {
             //city found
             setWeatherData(data);
             setCityName(city);
-            weatherConditionRef.current = data?.weather[0]?.main.toLowerCase();
-            if (searchBar.classList.contains("notfound"))
-              searchBar.classList.remove("notfound");
+            weatherConditionRef.current = data?.weather && data?.weather[0]?.main.toLowerCase();
+            searchBar.classList.toggle("notfound")
           }
         })
         .catch((error) => {
@@ -103,16 +103,17 @@ function App() {
       minute: "2-digit",
       hour12: false,
     });
-
-    //Checks wheather it's day or night time
-    if (sunriseDate <= currentDatetime && currentDatetime <= sunsetDate) {
+    
+    const isDayTime = sunriseDate <= currentDatetime && currentDatetime <= sunsetDate
+    if (isDayTime) {
       isNight = false;
-      if (!main.classList.contains("day")) main.classList.add("day");
-      if (main.classList.contains("night")) main.classList.remove("night");
-    } else {
-      if (!main.classList.contains("night")) main.classList.add("night");
-      if (main.classList.contains("day")) main.classList.remove("day");
-    }
+      main.classList.add("day");
+      main.classList.remove("night");
+  } else {
+      main.classList.add("night");
+      main.classList.remove("day");
+  }
+  
   }
 
   //assigning weather icon
@@ -152,7 +153,7 @@ function App() {
                 </span>
               </li>
               <li className="description">
-                {weatherData?.weather[0]?.description}
+                {weatherData?.weather && weatherData?.weather[0]?.description}
               </li>
             </ul>
           </section>
