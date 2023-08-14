@@ -1,10 +1,3 @@
-/*
-* Prefixed by https://autoprefixer.github.io
-* PostCSS: v8.4.14,
-* Autoprefixer: v10.4.7
-* Browsers: last 4 version
-*/
-
 * {
   margin: 0;
   padding: 0;
@@ -288,7 +281,7 @@ ul li {
   font-weight: bold;
   position: relative;
 }
-.temperature ::after {
+.temperature::after {
   content: "°";
   position: absolute;
   top: -3px;

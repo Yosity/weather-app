@@ -15,13 +15,14 @@ import cloudy from "./assets/images/icons/cloudy.png";
 import thunderStorm from "./assets/images/icons/thunderstorm.png";
 import noWeather from "./assets/images/icons/noWeather.png";
 
+const apiKey = import.meta.env.VITE_API;
+
 let weatherImg = "";
 let sunsetTime = "";
 let sunriseTime = "";
 function App() {
   const [cityName, setCityName] = useState("");
   const [weatherData, setWeatherData] = useState(null); //holds the json data
-  const apiKey = import.meta.env.VITE_API;
   const weatherConditionRef = useRef(""); // Using useRef for weather condition
 
   //A function that determines the direction wind is blowing to
@@ -146,7 +147,7 @@ function App() {
             <ul className="name-temperature-container">
               <li className="name">{cityName}</li>
               <li>
-                <span className="temprature">
+                <span className="temperature">
                   {Math.floor(weatherData?.main?.temp) || "-"}
                 </span>
               </li>
