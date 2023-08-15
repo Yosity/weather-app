@@ -15,7 +15,7 @@ import cloudy from "./assets/images/icons/cloudy.png";
 import thunderStorm from "./assets/images/icons/thunderstorm.png";
 import noWeather from "./assets/images/icons/noWeather.png";
 
-const apiKey = import.meta.env.VITE_API;
+const apiKey = import.meta.env.VITE_API_KEY;
 
 let weatherIcon = "";
 let sunsetTime = "";
