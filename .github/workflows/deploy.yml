@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-env:
-  VITE_API_KEY: ${{secrets.VITE_API_KEY}}
+
 jobs:
   build:
     name: Build
