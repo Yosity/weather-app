@@ -26,9 +26,9 @@ body {
   -ms-flex-align: center;
   align-items: center;
   background-size: cover;
-  -webkit-transition: background-image 0.85s;
-  -o-transition: background-image 0.85s;
-  transition: background-image 0.85s;
+  -webkit-transition: background-image 0.8s;
+  -o-transition: background-image 0.8s;
+  transition: background-image 0.8s;
 }
 
 .day {
